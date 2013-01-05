@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         }
         
         // linear
-		float angle = Mathf.Atan2(linearVelocity.y, linearVelocity.x);
+		float angle = Mathf.Atan2(transform.rotation.eulerAngles.z, transform.rotation.eulerAngles.x);
 		
         if (Input.GetKey(KeyCode.W))
         {
