@@ -8,13 +8,14 @@ public class PlayerController : MonoBehaviour
     public float angularAccel;
     public float maxAngularSpeed;
 
-    private float linearVelocity;
+    private Vector3 linearVelocity;
     private float angularVelocity;
 
 	// Use this for initialization
 	void Start ()
     {
-	
+		linearVelocity = new Vector3(0,0,0);
+		angularVelocity = 0;
 	}
 	
 	// Update is called once per frame
@@ -31,25 +32,36 @@ public class PlayerController : MonoBehaviour
         }
         
         // linear
+		float angle = Mathf.Atan2(linearVelocity.y, linearVelocity.x);
+		
         if (Input.GetKey(KeyCode.W))
         {
-            linearVelocity += linearAccel;
+            linearVelocity.x += Mathf.Sin(angle) * linearAccel;
+			linearVelocity.z += Mathf.Cos(angle) * linearAccel;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            linearVelocity -= linearAccel;
+          	linearVelocity.x -= Mathf.Sin(angle) * linearAccel;
+			linearVelocity.z -= Mathf.Cos(angle) * linearAccel;
         }
         
-		// clamp speeds
-		linearVelocity = clamp(linearVelocity, -maxLinearSpeed, maxLinearSpeed);
-		angularVelocity = clamp(angularVelocity, -maxAngularSpeed, maxAngularSpeed);
+		// clamp linear velocity
+		if (linearVelocity.magnitude > maxLinearSpeed)
+		{
+			linearVelocity.Normalize();
+			linearVelocity *= maxLinearSpeed;
+		}
+		
+		// clamp angular velocity
+		angularVelocity = Clamp(angularVelocity, -maxAngularSpeed, maxAngularSpeed);
 		
         // apply velocities
         this.transform.Rotate(0, angularVelocity * Time.deltaTime, 0);
-        this.transform.Translate(linearVelocity * Time.deltaTime, 0, 0);
+        this.transform.Translate(linearVelocity * Time.deltaTime, Space.World);
 	}
 	
-	float clamp(float value, float min, float max)
+	// returns value clamped between the specified max and min
+	float Clamp(float value, float min, float max)
 	{
 		return (value > max) ? max : (value < min) ? min : value;
 	}
