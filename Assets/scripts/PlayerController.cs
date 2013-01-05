@@ -8,13 +8,13 @@ public class PlayerController : MonoBehaviour
     public float angularAccel;
     public float maxAngularSpeed;
 
-    private Vector3 linearVelocity;
+    private Vector2 linearVelocity;
     private float angularVelocity;
 
 	// Use this for initialization
 	void Start ()
     {
-		linearVelocity = new Vector3(0,0,0);
+		linearVelocity = new Vector2(0,0);
 		angularVelocity = 0;
 	}
 	
@@ -32,17 +32,17 @@ public class PlayerController : MonoBehaviour
         }
         
         // linear
-		float angle = Mathf.Atan2(transform.rotation.eulerAngles.z, transform.rotation.eulerAngles.x);
+		float angle = transform.rotation.eulerAngles.y * (Mathf.PI/180);
 		
         if (Input.GetKey(KeyCode.W))
         {
             linearVelocity.x += Mathf.Sin(angle) * linearAccel;
-			linearVelocity.z += Mathf.Cos(angle) * linearAccel;
+			linearVelocity.y += Mathf.Cos(angle) * linearAccel;
         }
         if (Input.GetKey(KeyCode.S))
         {
           	linearVelocity.x -= Mathf.Sin(angle) * linearAccel;
-			linearVelocity.z -= Mathf.Cos(angle) * linearAccel;
+			linearVelocity.y -= Mathf.Cos(angle) * linearAccel;
         }
         
 		// clamp linear velocity
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
 		
         // apply velocities
         this.transform.Rotate(0, angularVelocity * Time.deltaTime, 0);
-        this.transform.Translate(linearVelocity * Time.deltaTime, Space.World);
+        this.transform.Translate(linearVelocity.x * Time.deltaTime, 0, linearVelocity.y * Time.deltaTime, Space.World);
 	}
 	
 	// returns value clamped between the specified max and min
