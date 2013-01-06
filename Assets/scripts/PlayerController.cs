@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 		angularVelocity = Clamp(angularVelocity, -maxAngularSpeed, maxAngularSpeed);
 		
         // apply velocities
-        this.transform.Rotate(0, angularVelocity * Time.deltaTime, 0);
+        this.transform.Rotate(0, 0, angularVelocity * Time.deltaTime);
         this.transform.Translate(linearVelocity.x * Time.deltaTime, 0, linearVelocity.y * Time.deltaTime, Space.World);
 	}
 	
