@@ -71,10 +71,12 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
 		{
+			/*
 			float a = transform.rotation.eulerAngles.y * (Mathf.PI/180);
 			Bullet b = Instantiate(Bullet, this.transform.position, this.transform.rotation) as Bullet;
 			b.velocity.x = Mathf.Sin(a) * b.speed;
 			b.velocity.y = Mathf.Cos(a) * b.speed;
+			*/
 		}
     }
     
