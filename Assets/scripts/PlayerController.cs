@@ -21,6 +21,13 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        updateMovement();
+        
+        updateShooting();
+	}
+	
+    void updateMovement()
+    {
         // angular
         if (Input.GetKey(KeyCode.A))
         {
@@ -58,8 +65,19 @@ public class PlayerController : MonoBehaviour
         // apply velocities
         this.transform.Rotate(0, 0, angularVelocity * Time.deltaTime);
         this.transform.Translate(linearVelocity.x * Time.deltaTime, 0, linearVelocity.y * Time.deltaTime, Space.World);
-	}
-	
+    }
+    
+    void updateShooting()
+    {
+        if (Input.GetMouseButtonDown(0))
+		{
+			float a = transform.rotation.eulerAngles.y * (Mathf.PI/180);
+			Bullet b = Instantiate(Bullet, this.transform.position, this.transform.rotation) as Bullet;
+			b.velocity.x = Mathf.Sin(a) * b.speed;
+			b.velocity.y = Mathf.Cos(a) * b.speed;
+		}
+    }
+    
 	// returns value clamped between the specified max and min
 	float Clamp(float value, float min, float max)
 	{
