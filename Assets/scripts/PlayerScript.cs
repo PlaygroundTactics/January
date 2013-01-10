@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
+	public GameObject bulletObj;
+	
     public float linearAccel;
     public float maxLinearSpeed;
     public float angularAccel;
@@ -73,7 +75,10 @@ public class PlayerController : MonoBehaviour
 		{
 			/*
 			float a = transform.rotation.eulerAngles.y * (Mathf.PI/180);
-			Bullet b = Instantiate(Bullet, this.transform.position, this.transform.rotation) as Bullet;
+			
+			GameObject b;
+			b = Instantiate(bulletObj, this.transform.position, this.transform.rotation) as GameObject;
+			
 			b.velocity.x = Mathf.Sin(a) * b.speed;
 			b.velocity.y = Mathf.Cos(a) * b.speed;
 			*/
