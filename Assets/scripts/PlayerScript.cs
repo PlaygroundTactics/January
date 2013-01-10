@@ -51,15 +51,11 @@ public class PlayerScript : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
 		{
-			/*
+			GameObject obj = Instantiate(bulletObj, this.transform.position, this.transform.rotation) as GameObject;
+			BulletScript b = obj.GetComponent("BulletScript") as BulletScript;
+			
 			float a = transform.rotation.eulerAngles.y * (Mathf.PI/180);
-			
-			GameObject b;
-			b = Instantiate(bulletObj, this.transform.position, this.transform.rotation) as GameObject;
-			
-			b.velocity.x = Mathf.Sin(a) * b.speed;
-			b.velocity.y = Mathf.Cos(a) * b.speed;
-			*/
+			b.rigidbody.AddForce(b.speed * Mathf.Sin(a), 0, b.speed * Mathf.Cos(a));
 		}
     }
     
