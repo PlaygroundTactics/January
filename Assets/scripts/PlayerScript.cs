@@ -6,18 +6,12 @@ public class PlayerScript : MonoBehaviour
 	public GameObject bulletObj;
 	
     public float linearAccel;
-    public float maxLinearSpeed;
     public float angularAccel;
-    public float maxAngularSpeed;
-
-    private Vector2 linearVelocity;
-    private float angularVelocity;
 
 	// Use this for initialization
 	void Start ()
     {
-		linearVelocity = new Vector2(0,0);
-		angularVelocity = 0;
+		;
 	}
 	
 	// Update is called once per frame
@@ -33,11 +27,11 @@ public class PlayerScript : MonoBehaviour
         // angular
         if (Input.GetKey(KeyCode.A))
         {
-            angularVelocity -= angularAccel;
+            this.rigidbody.AddTorque(0, -angularAccel, 0);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            angularVelocity += angularAccel;
+           this.rigidbody.AddTorque(0, angularAccel, 0);
         }
         
         // linear
@@ -45,28 +39,12 @@ public class PlayerScript : MonoBehaviour
 		
         if (Input.GetKey(KeyCode.W))
         {
-            linearVelocity.x += Mathf.Sin(angle) * linearAccel;
-			linearVelocity.y += Mathf.Cos(angle) * linearAccel;
+            this.rigidbody.AddForce(Mathf.Sin(angle) * linearAccel, 0, Mathf.Cos(angle) * linearAccel);
         }
         if (Input.GetKey(KeyCode.S))
         {
-          	linearVelocity.x -= Mathf.Sin(angle) * linearAccel;
-			linearVelocity.y -= Mathf.Cos(angle) * linearAccel;
+          	this.rigidbody.AddForce(Mathf.Sin(angle) * -linearAccel, 0, Mathf.Cos(angle) * -linearAccel);
         }
-        
-		// clamp linear velocity
-		if (linearVelocity.magnitude > maxLinearSpeed)
-		{
-			linearVelocity.Normalize();
-			linearVelocity *= maxLinearSpeed;
-		}
-		
-		// clamp angular velocity
-		angularVelocity = Clamp(angularVelocity, -maxAngularSpeed, maxAngularSpeed);
-		
-        // apply velocities
-        this.transform.Rotate(0, 0, angularVelocity * Time.deltaTime);
-        this.transform.Translate(linearVelocity.x * Time.deltaTime, 0, linearVelocity.y * Time.deltaTime, Space.World);
     }
     
     void updateShooting()
